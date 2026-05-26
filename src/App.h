@@ -12,6 +12,9 @@ class DesktopWindow;
 
 class App {
 public:
+    App();
+    ~App();
+
     bool Initialize(HINSTANCE instance);
     int Run();
 
@@ -35,4 +38,3 @@ private:
 extern App* gApp;
 
 } // namespace musuka
-

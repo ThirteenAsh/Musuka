@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <shellapi.h>
 #include <shlobj.h>
 #include <vector>
 
@@ -134,7 +135,7 @@ bool BitmapHasAlpha(Gdiplus::Bitmap* bitmap) {
     if ((flags & Gdiplus::ImageFlagsHasAlpha) != 0) {
         return true;
     }
-    const PixelFormat format = bitmap->GetPixelFormat();
+    const Gdiplus::PixelFormat format = bitmap->GetPixelFormat();
     return (format & PixelFormatAlpha) != 0 || (format & PixelFormatPAlpha) != 0;
 }
 

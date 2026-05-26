@@ -1,59 +1,48 @@
 # musuka
 
-musuka 是一个 Windows 桌面图标娘化替换软件。当前版本不会修改真实 Windows 桌面文件，也不会修改系统图标；它在运行时创建一个由 musuka 管理的拟桌面窗口，在背景上绘制替换图片，并通过这些图片打开对应桌面对象。
+musuka 是一个 Windows 桌面图标娘化替换软件。当前版本不会修改真实 Windows 桌面文件，也不会修改系统图标；它会创建一个由 musuka 管理的拟桌面窗口，在背景上绘制替换图片，并通过这些图片打开对应桌面对象。
 
 ## 构建
+
+当前项目只保留一种已验证的构建方式：**Visual Studio Build Tools 2022 + MSVC 开发者环境 + CMake NMake generator**。
 
 要求：
 
 - Windows 10/11
-- Visual Studio 2022 或 Visual Studio Build Tools
 - CMake 3.20+
+- Visual Studio Build Tools 2022
+- 安装组件：`Desktop development with C++`
 
-构建：
+直接运行：
 
 ```bat
+build.bat
+```
+
+脚本会：
+
+- 查找并加载 `vcvarsall.bat x64`
+- 使用 `NMake Makefiles` 配置 CMake
+- 编译到 `build-nmake\musuka.exe`
+- 将 `default_image\` 复制到 `build-nmake\default_image\`
+
+如果 Build Tools 安装在自定义目录，脚本会优先识别日志中验证过的路径：
+
+```text
+D:\DevTools\VSBuildTools2022\VC\Auxiliary\Build\vcvarsall.bat
+```
+
+也可以手动指定：
+
+```bat
+set VCVARSALL=D:\DevTools\VSBuildTools2022\VC\Auxiliary\Build\vcvarsall.bat
 build.bat
 ```
 
 生成文件：
 
 ```text
-build\Release\musuka.exe
-```
-
-也可以用 Visual Studio 打开本目录的 CMake 项目进行编译。
-
-### 使用 MinGW-w64 构建
-
-如果不安装 Visual Studio Build Tools，也可以使用 MinGW-w64。要求：
-
-- CMake 3.20+
-- MinGW-w64，`g++.exe` 在 `PATH` 中
-- 推荐安装 Ninja；没有 Ninja 时脚本会使用 `mingw32-make.exe`
-
-MSYS2 MinGW64 常见 PATH 示例：
-
-```bat
-set PATH=C:\msys64\mingw64\bin;%PATH%
-```
-
-构建：
-
-```bat
-build_mingw.bat
-```
-
-运行：
-
-```bat
-run_mingw.bat
-```
-
-生成文件：
-
-```text
-build-mingw\musuka.exe
+build-nmake\musuka.exe
 ```
 
 ## 打包
@@ -62,25 +51,10 @@ build-mingw\musuka.exe
 package.bat
 ```
 
-脚本会生成：
-
-```text
-release\
-  musuka.exe
-  default_image\
-  README.md
-```
-
-MinGW 打包：
-
-```bat
-package_mingw.bat
-```
-
 生成：
 
 ```text
-release-mingw\
+release\
   musuka.exe
   default_image\
   README.md
@@ -98,11 +72,25 @@ data\
 
 ## 如何运行
 
+构建后运行：
+
+```bat
+build-nmake\musuka.exe
+```
+
+或运行打包后的：
+
+```bat
+release\musuka.exe
+```
+
+使用流程：
+
 1. 启动 `musuka.exe`。
 2. 在 `musuka settings` 第一页选择当前系统桌面文件夹。
 3. 点击“下一步”扫描桌面快捷方式、普通文件夹，并加入“此电脑”“回收站”两个 Shell 对象。
 4. 在配置页选择对象、导入图片、选择候选图片并点击“替换”。
-5. 可用“带入 / 忽略”控制该对象是否进入 `musuka desktop`。
+5. 用“带入 / 忽略”控制该对象是否进入 `musuka desktop`。
 6. 在模式页选择 `Wallpaper 模式`，并选择当前系统静态壁纸或 musuka 纯色背景。
 7. 点击“运行”进入拟桌面。
 
@@ -112,7 +100,7 @@ data\
 - 扫描桌面普通文件夹。
 - 支持“此电脑”和“回收站”。
 - 支持 PNG/JPG/JPEG/BMP 图片导入。
-- 默认读取项目根目录或发布目录下的 `default_image\` 作为内置候选图片来源。
+- 读取 exe 所在目录下的 `default_image\` 作为内置候选图片来源。
 - 每个桌面对象默认导入原始图标候选项。
 - 拟桌面显示替换图片，不显示文件名称。
 - 单击选中、拖动保存位置、双击打开。
@@ -122,7 +110,7 @@ data\
 
 ## 当前未实现
 
-- `Wallpaper Engine 模式` 仅作为保留选项显示。选择该模式会提示“该模式暂未实现，当前版本请使用 Wallpaper 模式”，不会执行任何动态壁纸兼容逻辑。
+- `Wallpaper Engine 模式` 仅作为保留选项显示。选择该模式会提示“该模式暂未实现，当前版本请使用 Wallpaper 模式”，不会执行动态壁纸兼容逻辑。
 - 不支持 Live2D、视频背景、插件系统、网络下载、账号系统、云同步。
 
 ## 注意事项
@@ -150,3 +138,4 @@ data\
 13. 右键替换图片，测试“打开”“打开所在位置”“返回 settings”“退出 musuka”。
 14. 关闭后再次打开，确认配置仍然存在。
 15. 删除某张原始导入图片，再次进入 desktop，确认 musuka 内部备份图片仍可使用。
+

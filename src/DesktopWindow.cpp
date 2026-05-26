@@ -52,7 +52,7 @@ DesktopWindow::~DesktopWindow() {
 }
 
 bool DesktopWindow::Create() {
-    RegisterClass();
+    RegisterWindowClass();
 
     const int width = GetSystemMetrics(SM_CXSCREEN);
     const int height = GetSystemMetrics(SM_CYSCREEN);
@@ -87,7 +87,7 @@ void DesktopWindow::Hide() {
     }
 }
 
-void DesktopWindow::RegisterClass() {
+void DesktopWindow::RegisterWindowClass() {
     static bool registered = false;
     if (registered) {
         return;
@@ -100,7 +100,7 @@ void DesktopWindow::RegisterClass() {
     wc.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
     wc.lpszClassName = L"MusukaDesktopWindow";
     wc.style = CS_DBLCLKS;
-    RegisterClassW(&wc);
+    ::RegisterClassW(&wc);
     registered = true;
 }
 

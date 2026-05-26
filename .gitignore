@@ -1,7 +1,6 @@
 build/
-build-mingw/
+build-nmake/
 release/
-release-mingw/
 data/
 *.user
 *.suo

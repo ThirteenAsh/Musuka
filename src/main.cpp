@@ -1,5 +1,7 @@
 #include "App.h"
 
+#include <objidl.h>
+#include <propidl.h>
 #include <gdiplus.h>
 #include <objbase.h>
 
@@ -25,4 +27,3 @@ int APIENTRY wWinMain(HINSTANCE hInstance, HINSTANCE, LPWSTR, int) {
     CoUninitialize();
     return result;
 }
-

@@ -11,6 +11,10 @@ namespace musuka {
 
 App* gApp = nullptr;
 
+App::App() = default;
+
+App::~App() = default;
+
 bool App::Initialize(HINSTANCE instance) {
     instance_ = instance;
     gApp = this;

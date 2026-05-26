@@ -3,6 +3,8 @@
 #include "Models.h"
 
 #include <windows.h>
+#include <objidl.h>
+#include <propidl.h>
 #include <gdiplus.h>
 
 #include <memory>
@@ -31,7 +33,7 @@ private:
     static LRESULT CALLBACK WindowProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam);
     LRESULT HandleMessage(UINT message, WPARAM wParam, LPARAM lParam);
 
-    void RegisterClass();
+    void RegisterWindowClass();
     void LoadAssets();
     void AutoArrangeMissingPositions();
     void RecalculateRects();

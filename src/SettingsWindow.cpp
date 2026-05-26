@@ -148,7 +148,7 @@ void SettingsWindow::RegisterClasses() {
     wc.hCursor = LoadCursorW(nullptr, IDC_ARROW);
     wc.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
     wc.lpszClassName = L"MusukaSettingsWindow";
-    RegisterClassW(&wc);
+    ::RegisterClassW(&wc);
 
     WNDCLASSW preview{};
     preview.lpfnWndProc = SettingsWindow::PreviewProc;
@@ -156,7 +156,7 @@ void SettingsWindow::RegisterClasses() {
     preview.hCursor = LoadCursorW(nullptr, IDC_ARROW);
     preview.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
     preview.lpszClassName = L"MusukaPreviewPane";
-    RegisterClassW(&preview);
+    ::RegisterClassW(&preview);
 
     registered = true;
 }

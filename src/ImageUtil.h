@@ -3,6 +3,8 @@
 #include "Models.h"
 
 #include <windows.h>
+#include <objidl.h>
+#include <propidl.h>
 #include <gdiplus.h>
 
 #include <memory>
