@@ -1,0 +1,10 @@
+build/
+release/
+data/
+*.user
+*.suo
+*.obj
+*.pdb
+*.ilk
+*.exe
+
