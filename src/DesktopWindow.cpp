@@ -2,6 +2,7 @@
 
 #include "App.h"
 #include "ImageUtil.h"
+#include "Resource.h"
 #include "Util.h"
 #include "WinUtil.h"
 
@@ -150,6 +151,15 @@ ImageCandidate MakeExternalImageCandidate(const std::wstring& internalPath) {
     return candidate;
 }
 
+HICON LoadMusukaIcon(HINSTANCE instance, int width, int height) {
+    return reinterpret_cast<HICON>(LoadImageW(instance,
+                                             MAKEINTRESOURCEW(IDI_MUSUKA),
+                                             IMAGE_ICON,
+                                             width,
+                                             height,
+                                             LR_DEFAULTCOLOR | LR_SHARED));
+}
+
 bool TryFindPlacement(const DesktopObject& object,
                       bool showLabel,
                       const RECT& client,
@@ -216,6 +226,18 @@ bool DesktopWindow::Create() {
     if (!hwnd_) {
         return false;
     }
+    SendMessageW(hwnd_,
+                 WM_SETICON,
+                 ICON_BIG,
+                 reinterpret_cast<LPARAM>(LoadMusukaIcon(app_->Instance(),
+                                                          GetSystemMetrics(SM_CXICON),
+                                                          GetSystemMetrics(SM_CYICON))));
+    SendMessageW(hwnd_,
+                 WM_SETICON,
+                 ICON_SMALL,
+                 reinterpret_cast<LPARAM>(LoadMusukaIcon(app_->Instance(),
+                                                          GetSystemMetrics(SM_CXSMICON),
+                                                          GetSystemMetrics(SM_CYSMICON))));
 
     LoadAssets();
     RecalculateRects();
@@ -241,6 +263,7 @@ void DesktopWindow::RegisterWindowClass() {
     WNDCLASSW wc{};
     wc.lpfnWndProc = DesktopWindow::WindowProc;
     wc.hInstance = app_->Instance();
+    wc.hIcon = LoadMusukaIcon(app_->Instance(), GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON));
     wc.hCursor = LoadCursorW(nullptr, IDC_ARROW);
     wc.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
     wc.lpszClassName = L"MusukaDesktopWindow";

@@ -3,6 +3,7 @@
 #include "App.h"
 #include "DesktopScanner.h"
 #include "ImageUtil.h"
+#include "Resource.h"
 #include "Util.h"
 #include "WinUtil.h"
 
@@ -85,6 +86,15 @@ HMENU ControlId(int id) {
     return reinterpret_cast<HMENU>(static_cast<INT_PTR>(id));
 }
 
+HICON LoadMusukaIcon(HINSTANCE instance, int width, int height) {
+    return reinterpret_cast<HICON>(LoadImageW(instance,
+                                             MAKEINTRESOURCEW(IDI_MUSUKA),
+                                             IMAGE_ICON,
+                                             width,
+                                             height,
+                                             LR_DEFAULTCOLOR | LR_SHARED));
+}
+
 std::wstring ObjectListText(const DesktopObject& object) {
     std::wstring name = object.name;
     if (!object.includeInDesktop) {
@@ -153,6 +163,18 @@ bool SettingsWindow::Create(int initialPage) {
     if (!hwnd_) {
         return false;
     }
+    SendMessageW(hwnd_,
+                 WM_SETICON,
+                 ICON_BIG,
+                 reinterpret_cast<LPARAM>(LoadMusukaIcon(app_->Instance(),
+                                                          GetSystemMetrics(SM_CXICON),
+                                                          GetSystemMetrics(SM_CYICON))));
+    SendMessageW(hwnd_,
+                 WM_SETICON,
+                 ICON_SMALL,
+                 reinterpret_cast<LPARAM>(LoadMusukaIcon(app_->Instance(),
+                                                          GetSystemMetrics(SM_CXSMICON),
+                                                          GetSystemMetrics(SM_CYSMICON))));
     CenterWindowOnScreen(hwnd_);
     ShowWindow(hwnd_, SW_SHOW);
     UpdateWindow(hwnd_);
@@ -185,6 +207,7 @@ void SettingsWindow::RegisterClasses() {
     WNDCLASSW wc{};
     wc.lpfnWndProc = SettingsWindow::WindowProc;
     wc.hInstance = app_->Instance();
+    wc.hIcon = LoadMusukaIcon(app_->Instance(), GetSystemMetrics(SM_CXICON), GetSystemMetrics(SM_CYICON));
     wc.hCursor = LoadCursorW(nullptr, IDC_ARROW);
     wc.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);
     wc.lpszClassName = L"MusukaSettingsWindow";

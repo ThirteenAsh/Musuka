@@ -80,7 +80,7 @@ data\
 
 settings 的替换图片区域分为上下两块：上方显示当前对象自己的原始图标和用户导入图，下方显示共享的 `default_image` 默认图区。选择默认图时，`config.json` 只记录被选中的默认图路径，不会把所有默认图重复写入每个桌面对象。
 
-`default_image\Musuka.png` 是 musuka 应用图标的源图；仓库中的 `assets\Musuka.ico` 由该 PNG 生成，并通过 Windows 资源文件嵌入 `musuka.exe`。
+`default_image\Musuka.png` 是 musuka 应用图标的源图；仓库中的 `assets\Musuka.ico` 由该 PNG 生成，并通过 Windows 资源文件嵌入 `musuka.exe`。settings 和 desktop 窗口会在窗口类与窗口实例上设置该图标，用于窗口左上角和任务栏显示。
 
 ## 如何运行
 
